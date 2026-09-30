@@ -1,0 +1,58 @@
+
+{% extends "base.html" %}
+{% block title %}{{ form_title }} · ACC{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">USER MANAGEMENT</p>
+        <h1>{{ form_title }}</h1>
+    </div>
+    <a class="btn btn-outline" href="{{ url_for('admin_users') }}">← Back to Users</a>
+</div>
+
+<section class="panel form-panel">
+<form method="post" class="form">
+    {% if user %}
+        <label>Username
+            <input type="text" value="{{ user['username'] }}" disabled>
+            <small class="field-help">Username cannot be changed from this form.</small>
+        </label>
+    {% else %}
+        <label>Username
+            <input type="text" name="username" minlength="3" required>
+        </label>
+    {% endif %}
+
+    <div class="grid-2">
+        <label>Full name
+            <input type="text" name="full_name" value="{{ user['full_name'] if user else '' }}" required>
+        </label>
+        <label>Email
+            <input type="email" name="email" value="{{ user['email'] if user else '' }}" required>
+        </label>
+    </div>
+
+    <label>Role
+        <select name="role" required>
+            {% if not user %}
+                <option value="student">Student</option>
+                <option value="medical">Medical Staff</option>
+            {% else %}
+                <option value="student" {{ "selected" if user["role"] == "student" }}>Student</option>
+                <option value="medical" {{ "selected" if user["role"] == "medical" }}>Medical Staff</option>
+                <option value="super_admin" {{ "selected" if user["role"] == "super_admin" }}>Super Admin</option>
+            {% endif %}
+        </select>
+    </label>
+
+    <label>Password {% if user %}<span class="muted">(leave blank to keep current password)</span>{% endif %}
+        <input type="password" name="password" minlength="8" {{ "required" if not user }}>
+    </label>
+
+    <div class="form-actions">
+        <a class="btn btn-outline" href="{{ url_for('admin_users') }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Save User</button>
+    </div>
+</form>
+</section>
+{% endblock %}

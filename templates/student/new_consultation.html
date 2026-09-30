@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+{% block title %}New Consultation · ACC{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">STUDENT PORTAL</p>
+        <h1>Request a Consultation</h1>
+        <p class="muted">Give the Medical staff enough information to understand your request.</p>
+    </div>
+    <a class="btn btn-outline" href="{{ url_for('student_dashboard') }}">← Dashboard</a>
+</div>
+
+<section class="panel form-panel">
+<form method="post" class="form">
+    <label>Describe your concern
+        <textarea name="concern" rows="7" minlength="10" required placeholder="Briefly explain what you would like help with..."></textarea>
+        <small class="field-help">Please avoid unnecessary sensitive information in the description.</small>
+    </label>
+
+    <div class="grid-2">
+        <label>Preferred date
+            <input type="date" name="preferred_date">
+        </label>
+        <label>Preferred time
+            <input type="time" name="preferred_time">
+        </label>
+    </div>
+
+    <label>Additional notes <span class="muted">(optional)</span>
+        <textarea name="student_notes" rows="4" placeholder="Any scheduling or follow-up details..."></textarea>
+    </label>
+
+    <div class="notice">
+        <strong>What happens next?</strong>
+        <span>Your request starts as <b>Pending</b>. A Medical staff member can be assigned by the Super Admin, then the Medical staff can accept, respond, and update the request.</span>
+    </div>
+
+    <div class="form-actions">
+        <a class="btn btn-outline" href="{{ url_for('student_dashboard') }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Submit Request</button>
+    </div>
+</form>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+{% block title %}Student Registration · ACC{% endblock %}
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card wide">
+        <div class="logo-circle">
+            <img src="{{ url_for('static', filename='img/acc_logo.png') }}" alt="ACC logo">
+        </div>
+        <p class="eyebrow">STUDENT REGISTRATION</p>
+        <h1>Create your account</h1>
+        <p class="muted">Register as an ACC student to submit consultation requests.</p>
+
+        <form method="post" class="form">
+            <label>Full name
+                <input type="text" name="full_name" required>
+            </label>
+            <label>Email
+                <input type="email" name="email" required>
+            </label>
+            <label>Username
+                <input type="text" name="username" minlength="3" required>
+            </label>
+            <div class="grid-2">
+                <label>Password
+                    <input type="password" name="password" minlength="8" required>
+                </label>
+                <label>Confirm password
+                    <input type="password" name="confirm_password" minlength="8" required>
+                </label>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Register</button>
+        </form>
+
+        <div class="auth-link">Already registered? <a href="{{ url_for('login') }}">Back to login</a></div>
+    </div>
+</section>
+{% endblock %}

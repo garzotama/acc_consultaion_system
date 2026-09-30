@@ -1,0 +1,64 @@
+
+{% extends "base.html" %}
+{% block title %}Consultations · ACC{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">CONSULTATION OVERSIGHT</p>
+        <h1>All Consultation Requests</h1>
+        <p class="muted">Assign requests to Medical staff and monitor status.</p>
+    </div>
+    <form method="get" class="inline-form">
+        <select name="status" onchange="this.form.submit()">
+            <option value="">All statuses</option>
+            {% for status in statuses %}
+                <option value="{{ status }}" {{ "selected" if selected_status == status }}>{{ status }}</option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
+
+<section class="panel">
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Request</th><th>Student</th><th>Concern</th><th>Schedule</th><th>Assign</th><th>Status</th><th>Action</th></tr>
+</thead>
+<tbody>
+{% for item in consultations %}
+<tr>
+    <td><strong>#{{ item["id"] }}</strong><br><small>{{ item["created_at"] }}</small></td>
+    <td>{{ item["student_name"] }}</td>
+    <td class="long-text">{{ item["concern"] }}</td>
+    <td>{{ item["preferred_date"] or "—" }}<br>{{ item["preferred_time"] or "" }}</td>
+    <td>
+        <form method="post" action="{{ url_for('admin_assign_consultation', consultation_id=item['id']) }}" class="compact-form">
+            <select name="medical_id">
+                <option value="">Unassigned</option>
+                {% for staff in medical_staff %}
+                    <option value="{{ staff['id'] }}" {{ "selected" if item["medical_id"] == staff["id"] }}>{{ staff["full_name"] }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-small btn-outline" type="submit">Save</button>
+        </form>
+    </td>
+    <td><span class="status status-{{ item['status']|lower|replace(' ', '-') }}">{{ item["status"] }}</span></td>
+    <td>
+        <form method="post" action="{{ url_for('admin_update_consultation_status', consultation_id=item['id']) }}" class="compact-form">
+            <select name="status">
+                {% for status in statuses %}
+                    <option value="{{ status }}" {{ "selected" if item["status"] == status }}>{{ status }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-small btn-primary" type="submit">Update</button>
+        </form>
+    </td>
+</tr>
+{% else %}
+<tr><td colspan="7"><div class="empty-state">No consultations found.</div></td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</section>
+{% endblock %}

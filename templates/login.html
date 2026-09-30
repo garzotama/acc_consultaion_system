@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+{% block title %}Login · ACC Consultation System{% endblock %}
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card">
+        <div class="logo-circle">
+            <img src="{{ url_for('static', filename='img/acc_logo.png') }}" alt="ACC logo">
+        </div>
+        <p class="eyebrow">ABUYOG COMMUNITY COLLEGE</p>
+        <h1>Welcome back</h1>
+        <p class="muted">Sign in to access your consultation dashboard.</p>
+
+        <form method="post" class="form">
+            <label>Username
+                <input type="text" name="username" autocomplete="username" required autofocus>
+            </label>
+            <label>Password
+                <input type="password" name="password" autocomplete="current-password" required>
+            </label>
+            <button class="btn btn-primary btn-block" type="submit">Sign In</button>
+        </form>
+
+        <div class="auth-link">
+            New student? <a href="{{ url_for('register') }}">Create a student account</a>
+        </div>
+
+        <div class="demo-box">
+            <strong>Local demo accounts</strong>
+            <small>Admin: admin / Admin@123</small>
+            <small>Medical: medical / Medical@123</small>
+            <small>Student: student / Student@123</small>
+        </div>
+    </div>
+</section>
+{% endblock %}

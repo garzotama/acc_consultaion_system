@@ -1,0 +1,34 @@
+
+{% extends "base.html" %}
+{% block title %}Medical History · ACC{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">MEDICAL STAFF</p>
+        <h1>Consultation History</h1>
+        <p class="muted">Your assigned consultation history.</p>
+    </div>
+</div>
+
+<section class="panel">
+<div class="table-wrap">
+<table>
+<thead><tr><th>ID</th><th>Student</th><th>Concern</th><th>Status</th><th>Updated</th><th></th></tr></thead>
+<tbody>
+{% for item in history %}
+<tr>
+    <td>#{{ item["id"] }}</td>
+    <td>{{ item["student_name"] }}</td>
+    <td class="long-text">{{ item["concern"] }}</td>
+    <td><span class="status status-{{ item['status']|lower|replace(' ', '-') }}">{{ item["status"] }}</span></td>
+    <td>{{ item["updated_at"] }}</td>
+    <td><a class="btn btn-small btn-outline" href="{{ url_for('medical_consultation', consultation_id=item['id']) }}">View</a></td>
+</tr>
+{% else %}
+<tr><td colspan="6"><div class="empty-state">No history yet.</div></td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,48 @@
+
+{% extends "base.html" %}
+{% block title %}Student Dashboard · ACC{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">STUDENT PORTAL</p>
+        <h1>My Consultations</h1>
+        <p class="muted">Submit a request and follow its progress from one dashboard.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ url_for('student_new_consultation') }}">+ Request Consultation</a>
+</div>
+
+<div class="stat-grid">
+    <div class="stat-card"><span>Total Requests</span><strong>{{ counts["total"] or 0 }}</strong></div>
+    <div class="stat-card warning-stat"><span>Pending</span><strong>{{ counts["pending"] or 0 }}</strong></div>
+    <div class="stat-card success-stat"><span>Completed</span><strong>{{ counts["completed"] or 0 }}</strong></div>
+</div>
+
+<section class="panel">
+    <div class="panel-heading"><h2>Request History</h2></div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>ID</th><th>Concern</th><th>Medical Staff</th><th>Status</th><th>Submitted</th><th></th></tr></thead>
+            <tbody>
+            {% for item in consultations %}
+            <tr>
+                <td>#{{ item["id"] }}</td>
+                <td class="long-text">{{ item["concern"] }}</td>
+                <td>{{ item["medical_name"] or "Waiting for assignment" }}</td>
+                <td><span class="status status-{{ item['status']|lower|replace(' ', '-') }}">{{ item["status"] }}</span></td>
+                <td>{{ item["created_at"] }}</td>
+                <td><a class="btn btn-small btn-outline" href="{{ url_for('student_consultation', consultation_id=item['id']) }}">View</a></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">
+                <div class="empty-state">
+                    <h3>No consultation requests yet</h3>
+                    <p>Submit your first consultation request when you need assistance.</p>
+                    <a class="btn btn-primary" href="{{ url_for('student_new_consultation') }}">Request Consultation</a>
+                </div>
+            </td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

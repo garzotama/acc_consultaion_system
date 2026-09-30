@@ -1,0 +1,11 @@
+
+{% extends "base.html" %}
+{% block title %}{{ code }} · ACC Consultation System{% endblock %}
+{% block content %}
+<section class="empty-state large">
+    <div class="empty-icon">{{ code }}</div>
+    <h1>Something went wrong</h1>
+    <p>{{ message }}</p>
+    <a class="btn btn-primary" href="{{ url_for('index') }}">Return Home</a>
+</section>
+{% endblock %}

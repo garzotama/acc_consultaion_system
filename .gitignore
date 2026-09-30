@@ -1,0 +1,6 @@
+
+venv/
+__pycache__/
+*.pyc
+.env
+acc_consultation.db

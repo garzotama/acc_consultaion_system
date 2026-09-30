@@ -1,0 +1,42 @@
+
+{% extends "base.html" %}
+{% block title %}Medical Dashboard · ACC{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">MEDICAL STAFF</p>
+        <h1>Consultation Queue</h1>
+        <p class="muted">Review requests assigned to you and respond to students.</p>
+    </div>
+</div>
+
+<div class="stat-grid">
+    <div class="stat-card"><span>Total Assigned</span><strong>{{ counts["total"] or 0 }}</strong></div>
+    <div class="stat-card warning-stat"><span>Pending</span><strong>{{ counts["pending"] or 0 }}</strong></div>
+    <div class="stat-card"><span>In Progress</span><strong>{{ counts["in_progress"] or 0 }}</strong></div>
+    <div class="stat-card success-stat"><span>Completed</span><strong>{{ counts["completed"] or 0 }}</strong></div>
+</div>
+
+<section class="panel">
+    <div class="panel-heading"><h2>Assigned Requests</h2></div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>ID</th><th>Student</th><th>Concern</th><th>Preferred Schedule</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+            {% for item in assigned %}
+            <tr>
+                <td>#{{ item["id"] }}</td>
+                <td><strong>{{ item["student_name"] }}</strong><br><small>{{ item["student_email"] }}</small></td>
+                <td class="long-text">{{ item["concern"] }}</td>
+                <td>{{ item["preferred_date"] or "Any date" }}<br>{{ item["preferred_time"] or "Any time" }}</td>
+                <td><span class="status status-{{ item['status']|lower|replace(' ', '-') }}">{{ item["status"] }}</span></td>
+                <td><a class="btn btn-small btn-primary" href="{{ url_for('medical_consultation', consultation_id=item['id']) }}">Open</a></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6"><div class="empty-state">No consultations have been assigned to you.</div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,44 @@
+
+{% extends "base.html" %}
+{% block title %}Consultation #{{ consultation["id"] }} · ACC{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">MEDICAL RESPONSE</p>
+        <h1>Consultation #{{ consultation["id"] }}</h1>
+        <p class="muted">Review the student's request and update its status.</p>
+    </div>
+    <a class="btn btn-outline" href="{{ url_for('medical_dashboard') }}">← Queue</a>
+</div>
+
+<div class="two-col">
+<section class="panel">
+    <h2>Student Request</h2>
+    <dl class="details">
+        <dt>Student</dt><dd>{{ consultation["student_name"] }}</dd>
+        <dt>Email</dt><dd>{{ consultation["student_email"] }}</dd>
+        <dt>Preferred date</dt><dd>{{ consultation["preferred_date"] or "Not specified" }}</dd>
+        <dt>Preferred time</dt><dd>{{ consultation["preferred_time"] or "Not specified" }}</dd>
+        <dt>Concern</dt><dd>{{ consultation["concern"] }}</dd>
+        <dt>Student notes</dt><dd>{{ consultation["student_notes"] or "No additional notes." }}</dd>
+    </dl>
+</section>
+
+<section class="panel">
+    <h2>Medical Response</h2>
+    <form method="post" class="form">
+        <label>Status
+            <select name="status" required>
+                {% for status in statuses %}
+                    <option value="{{ status }}" {{ "selected" if consultation["status"] == status }}>{{ status }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Medical notes / response
+            <textarea name="medical_notes" rows="10" placeholder="Enter your response, advice, or follow-up notes...">{{ consultation["medical_notes"] or "" }}</textarea>
+        </label>
+        <button class="btn btn-primary btn-block" type="submit">Save Response</button>
+    </form>
+</section>
+</div>
+{% endblock %}
